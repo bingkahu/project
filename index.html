@@ -14,14 +14,19 @@
       align-items: center;
       height: 100vh;
     }
+
     #login, #videoBox {
+      display: none;
+    }
+
+    #login {
       background: #222;
       padding: 30px;
       border-radius: 10px;
       width: 300px;
       text-align: center;
-      display: none;
     }
+
     input {
       width: 90%;
       padding: 10px;
@@ -29,6 +34,7 @@
       border: none;
       border-radius: 5px;
     }
+
     button {
       width: 100%;
       padding: 10px;
@@ -39,6 +45,17 @@
       font-size: 16px;
       cursor: pointer;
     }
+
+    /* Fullscreen Rickroll container */
+    #videoBox {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     video {
       width: 80vw;
       max-width: 900px;
@@ -58,7 +75,7 @@
 
   <!-- RICKROLL -->
   <div id="videoBox">
-    <video autoplay controls>
+    <video id="rr" autoplay muted playsinline>
       <source src="Rick_Astley_Never_Gonna_Give_You_Up.mp4" type="video/mp4">
     </video>
   </div>
@@ -68,7 +85,16 @@
 
     function go() {
       document.getElementById("login").style.display = "none";
-      document.getElementById("videoBox").style.display = "block";
+      document.getElementById("videoBox").style.display = "flex";
+
+      const vid = document.getElementById("rr");
+
+      // Unmute instantly when login is clicked
+      vid.muted = false;
+      vid.volume = 1;
+
+      // Ensure playback continues after unmuting
+      vid.play();
     }
   </script>
 
