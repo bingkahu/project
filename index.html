@@ -85,17 +85,8 @@
     <button id="loginBtn">Login</button>
   </div>
 
-  <!-- JUMPSCARE -->
-  <div id="jumpscareBox">
-    <video id="jumpscare" autoplay muted playsinline>
-      <source src="jumpscare.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <!-- JUMPSCARE SOUND -->
-  <audio id="jumpsound">
-    <source src="jumpscare-sound.mp3" type="audio/mpeg">
-  </audio>
+  <!-- JUMPSCARE CONTAINER -->
+  <div id="jumpscareBox"></div>
 
   <!-- EXIT BUTTON -->
   <button id="exitBtn">Exit Website</button>
@@ -106,30 +97,38 @@
   <script>
     const loginBox = document.getElementById("login");
     const jumpscareBox = document.getElementById("jumpscareBox");
-    const jumpscare = document.getElementById("jumpscare");
-    const jumpsound = document.getElementById("jumpsound");
     const exitBtn = document.getElementById("exitBtn");
     const videoBox = document.getElementById("videoBox");
     const loginBtn = document.getElementById("loginBtn");
 
-    // LOGIN → start jumpscare
+    let jumpscareVid;
+
+    // LOGIN → play jumpscare
     loginBtn.addEventListener("click", () => {
       loginBox.style.display = "none";
       jumpscareBox.style.display = "flex";
 
-      // Unmute jumpscare + play jumpscare sound
-      jumpscare.muted = false;
-      jumpscare.volume = 1;
+      jumpscareVid = document.createElement("video");
+      jumpscareVid.src = "jumpscare.mp4"; // make sure this matches exactly
+      jumpscareVid.autoplay = true;
+      jumpscareVid.controls = false;
+      jumpscareVid.playsInline = true;
+      jumpscareVid.volume = 1;
 
-      jumpsound.volume = 1;
-      jumpsound.play();
+      jumpscareVid.style.width = "80vw";
+      jumpscareVid.style.maxWidth = "900px";
+      jumpscareVid.style.borderRadius = "8px";
+
+      jumpscareBox.appendChild(jumpscareVid);
+
+      // force play in case autoplay flag is ignored
+      jumpscareVid.play().catch(e => console.log("jumpscare play blocked:", e));
+
+      jumpscareVid.onended = () => {
+        jumpscareBox.style.display = "none";
+        exitBtn.style.display = "block";
+      };
     });
-
-    // When jumpscare ends → show exit button
-    jumpscare.onended = () => {
-      jumpscareBox.style.display = "none";
-      exitBtn.style.display = "block";
-    };
 
     // Exit button → play Rickroll with sound
     exitBtn.addEventListener("click", () => {
@@ -144,7 +143,7 @@
       vid.volume = 1;
 
       videoBox.appendChild(vid);
-      vid.play();
+      vid.play().catch(e => console.log("rickroll play blocked:", e));
     });
   </script>
 
