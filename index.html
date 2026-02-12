@@ -9,28 +9,22 @@
       background: #000;
       color: white;
       font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       height: 100vh;
       overflow: hidden;
     }
 
-    #login, #videoBox, #jumpscareBox {
-      display: none;
-    }
-
-    /* LOGIN BOX */
+    /* Centered login box */
     #login {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       background: #222;
       padding: 30px;
       border-radius: 10px;
       width: 300px;
       text-align: center;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      display: none;
     }
 
     input {
@@ -52,17 +46,14 @@
       cursor: pointer;
     }
 
-    /* FULLSCREEN VIDEO BOXES */
-    #videoBox, #jumpscareBox {
-      width: 100%;
-      height: 100%;
-      display: flex;
+    /* Fullscreen video containers */
+    #jumpscareBox, #videoBox {
+      position: absolute;
+      inset: 0;
+      display: none;
       justify-content: center;
       align-items: center;
       background: #000;
-      position: absolute;
-      top: 0;
-      left: 0;
     }
 
     video {
@@ -86,45 +77,50 @@
     <h2>Login</h2>
     <input type="text" placeholder="Username">
     <input type="password" placeholder="Password">
-    <button onclick="go()">Login</button>
+    <button id="loginBtn">Login</button>
   </div>
 
   <!-- RICKROLL -->
-  <div id="videoBox">
-    <video id="rr" autoplay muted playsinline>
-      <source src="Rick_Astley_Never_Gonna_Give_You_Up.mp4" type="video/mp4">
-    </video>
-  </div>
+  <div id="videoBox"></div>
 
   <script>
+    const jumpscareBox = document.getElementById("jumpscareBox");
+    const jumpscare = document.getElementById("jumpscare");
+    const loginBox = document.getElementById("login");
+    const videoBox = document.getElementById("videoBox");
+    const loginBtn = document.getElementById("loginBtn");
+
     // Show jumpscare immediately
-    document.getElementById("jumpscareBox").style.display = "flex";
+    jumpscareBox.style.display = "flex";
 
-    const js = document.getElementById("jumpscare");
-
-    // Unmute jumpscare after 1 second (allowed)
+    // Unmute jumpscare after 1 second
     setTimeout(() => {
-      js.muted = false;
-      js.volume = 1;
+      jumpscare.muted = false;
+      jumpscare.volume = 1;
     }, 1000);
 
     // When jumpscare ends → show login
-    js.onended = () => {
-      document.getElementById("jumpscareBox").style.display = "none";
-      document.getElementById("login").style.display = "block";
+    jumpscare.onended = () => {
+      jumpscareBox.style.display = "none";
+      loginBox.style.display = "block";
     };
 
-    function go() {
-      document.getElementById("login").style.display = "none";
-      document.getElementById("videoBox").style.display = "flex";
+    // Login → play Rickroll with sound
+    loginBtn.addEventListener("click", () => {
+      loginBox.style.display = "none";
+      videoBox.style.display = "flex";
 
-      const vid = document.getElementById("rr");
-
-      // Unmute Rickroll
-      vid.muted = false;
+      const vid = document.createElement("video");
+      vid.src = "Rick_Astley_Never_Gonna_Give_You_Up.mp4";
+      vid.autoplay = true;
+      vid.controls = true;
+      vid.playsInline = true;
       vid.volume = 1;
-      vid.play();
-    }
+
+      videoBox.appendChild(vid);
+
+      vid.play().catch(err => console.log("Playback blocked:", err));
+    });
   </script>
 
 </body>
