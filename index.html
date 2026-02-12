@@ -1,41 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Totally Not a Rickroll</title>
+  <title>Secure Login</title>
   <style>
     body {
       margin: 0;
-      background: #000;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
-    iframe {
-      width: 80vw;
-      height: 45vw;
-      max-width: 960px;
-      max-height: 540px;
+    #loginBox, #rickrollBox {
+      background: #222;
+      padding: 30px;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+      display: none;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
       border: none;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #4a8cff;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    video {
+      width: 80vw;
+      max-width: 900px;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
-  <div id="container"></div>
+
+  <!-- LOGIN SCREEN -->
+  <div id="loginBox">
+    <h2>Login</h2>
+    <input type="text" placeholder="Username">
+    <input type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <!-- RICKROLL SCREEN -->
+  <div id="rickrollBox">
+    <video autoplay controls>
+      <source src="rickroll.mpg" type="video/mpeg">
+    </video>
+  </div>
 
   <script>
-    // Wait a moment, then load the video
-    setTimeout(function () {
-      const container = document.getElementById('container');
-      container.innerHTML = `
-        <iframe
-          src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
-          allow="autoplay; encrypted-media"
-          allowfullscreen
-        ></iframe>
-      `;
-    }, 1500); // 1.5 second suspense
+    document.getElementById("loginBox").style.display = "block";
+
+    function login() {
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("rickrollBox").style.display = "block";
+    }
   </script>
+
 </body>
 </html>
