@@ -24,7 +24,6 @@
       border-radius: 10px;
       width: 300px;
       text-align: center;
-      display: none;
     }
 
     input {
@@ -46,7 +45,7 @@
       cursor: pointer;
     }
 
-    /* Fullscreen video containers */
+    /* Fullscreen containers */
     #jumpscareBox, #videoBox {
       position: absolute;
       inset: 0;
@@ -78,6 +77,14 @@
 </head>
 <body>
 
+  <!-- LOGIN FIRST -->
+  <div id="login">
+    <h2>Login</h2>
+    <input type="text" placeholder="Username">
+    <input type="password" placeholder="Password">
+    <button id="loginBtn">Login</button>
+  </div>
+
   <!-- JUMPSCARE -->
   <div id="jumpscareBox">
     <video id="jumpscare" autoplay muted playsinline>
@@ -85,13 +92,10 @@
     </video>
   </div>
 
-  <!-- LOGIN -->
-  <div id="login">
-    <h2>Login</h2>
-    <input type="text" placeholder="Username">
-    <input type="password" placeholder="Password">
-    <button id="loginBtn">Login</button>
-  </div>
+  <!-- JUMPSCARE SOUND -->
+  <audio id="jumpsound">
+    <source src="jumpscare-sound.mp3" type="audio/mpeg">
+  </audio>
 
   <!-- EXIT BUTTON -->
   <button id="exitBtn">Exit Website</button>
@@ -100,21 +104,25 @@
   <div id="videoBox"></div>
 
   <script>
+    const loginBox = document.getElementById("login");
     const jumpscareBox = document.getElementById("jumpscareBox");
     const jumpscare = document.getElementById("jumpscare");
-    const loginBox = document.getElementById("login");
+    const jumpsound = document.getElementById("jumpsound");
+    const exitBtn = document.getElementById("exitBtn");
     const videoBox = document.getElementById("videoBox");
     const loginBtn = document.getElementById("loginBtn");
-    const exitBtn = document.getElementById("exitBtn");
 
-    // Show jumpscare immediately
-    jumpscareBox.style.display = "flex";
-
-    // When user clicks login → unmute jumpscare
+    // LOGIN → start jumpscare
     loginBtn.addEventListener("click", () => {
+      loginBox.style.display = "none";
+      jumpscareBox.style.display = "flex";
+
+      // Unmute jumpscare + play jumpscare sound
       jumpscare.muted = false;
       jumpscare.volume = 1;
-      loginBox.style.display = "none";
+
+      jumpsound.volume = 1;
+      jumpsound.play();
     });
 
     // When jumpscare ends → show exit button
