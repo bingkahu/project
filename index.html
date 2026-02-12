@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Totally Not a Rickroll</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    iframe {
+      width: 80vw;
+      height: 45vw;
+      max-width: 960px;
+      max-height: 540px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+
+  <script>
+    // Wait a moment, then load the video
+    setTimeout(function () {
+      const container = document.getElementById('container');
+      container.innerHTML = `
+        <iframe
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+        ></iframe>
+      `;
+    }, 1500); // 1.5 second suspense
+  </script>
+</body>
+</html>
