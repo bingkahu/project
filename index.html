@@ -56,6 +56,19 @@
       background: #000;
     }
 
+    #exitBtn {
+      position: absolute;
+      bottom: 40px;
+      padding: 15px 25px;
+      background: red;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      display: none;
+    }
+
     video {
       width: 80vw;
       max-width: 900px;
@@ -80,6 +93,9 @@
     <button id="loginBtn">Login</button>
   </div>
 
+  <!-- EXIT BUTTON -->
+  <button id="exitBtn">Exit Website</button>
+
   <!-- RICKROLL -->
   <div id="videoBox"></div>
 
@@ -89,25 +105,27 @@
     const loginBox = document.getElementById("login");
     const videoBox = document.getElementById("videoBox");
     const loginBtn = document.getElementById("loginBtn");
+    const exitBtn = document.getElementById("exitBtn");
 
     // Show jumpscare immediately
     jumpscareBox.style.display = "flex";
 
-    // Unmute jumpscare after 1 second
-    setTimeout(() => {
+    // When user clicks login → unmute jumpscare
+    loginBtn.addEventListener("click", () => {
       jumpscare.muted = false;
       jumpscare.volume = 1;
-    }, 1000);
+      loginBox.style.display = "none";
+    });
 
-    // When jumpscare ends → show login
+    // When jumpscare ends → show exit button
     jumpscare.onended = () => {
       jumpscareBox.style.display = "none";
-      loginBox.style.display = "block";
+      exitBtn.style.display = "block";
     };
 
-    // Login → play Rickroll with sound
-    loginBtn.addEventListener("click", () => {
-      loginBox.style.display = "none";
+    // Exit button → play Rickroll with sound
+    exitBtn.addEventListener("click", () => {
+      exitBtn.style.display = "none";
       videoBox.style.display = "flex";
 
       const vid = document.createElement("video");
@@ -118,8 +136,7 @@
       vid.volume = 1;
 
       videoBox.appendChild(vid);
-
-      vid.play().catch(err => console.log("Playback blocked:", err));
+      vid.play();
     });
   </script>
 
